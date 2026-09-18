@@ -24,11 +24,16 @@ export function parseAmount(value) {
 export function parseDate(value) {
   const s = String(value ?? "").trim();
   let m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s);
-  if (!m) m = /^(\d{2})-(\d{2})-(\d{4})$/.exec(s)?.slice(1).reverse();
+  if (m) {
+    const [, y, mo, d] = m;
+    const date = new Date(Date.UTC(Number(y), Number(mo) - 1, Number(d)));
+    return date.getUTCFullYear() === Number(y) && date.getUTCMonth() === Number(mo) - 1 && date.getUTCDate() === Number(d) ? date : null;
+  }
+  m = /^(\d{2})-(\d{2})-(\d{4})$/.exec(s);
   if (!m) return null;
-  const [y, mo, d] = m.slice(1).map(Number);
-  const date = new Date(Date.UTC(y, mo - 1, d));
-  return date.getUTCFullYear() === y && date.getUTCMonth() === mo - 1 && date.getUTCDate() === d ? date : null;
+  const [, d, mo, y] = m;
+  const date = new Date(Date.UTC(Number(y), Number(mo) - 1, Number(d)));
+  return date.getUTCFullYear() === Number(y) && date.getUTCMonth() === Number(mo) - 1 && date.getUTCDate() === Number(d) ? date : null;
 }
 
 export function daysOverdue(value, today = new Date()) {
