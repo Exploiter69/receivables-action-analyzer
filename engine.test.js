@@ -17,7 +17,7 @@ test("missing amount becomes a data issue and contributes zero", () => {
 });
 
 test("invalid date becomes a data issue", () => {
-  const r = analyzeReceivable({...base, due_date:"13-08-2026"}, {today});
+  const r = analyzeReceivable({...base, due_date:"31-13-2026"}, {today});
   assert.equal(r.action, ACTIONS.DATA_ISSUE);
 });
 
@@ -56,7 +56,9 @@ test("duplicates are excluded from financial totals", () => {
   assert.equal(s.outstanding, 1000000);
 });
 
-test("date parser accepts ISO and Indian DD-MM-YYYY", () => {
+test("date parser accepts ISO and Indian DD-MM-YYYY and rejects impossible dates", () => {
   assert.equal(analyzeReceivable({...base, due_date:"01-08-2026"}, {today}).dataIssue, false);
+  assert.equal(analyzeReceivable({...base, due_date:"13-08-2026"}, {today}).dataIssue, false);
+  assert.equal(analyzeReceivable({...base, due_date:"31-13-2026"}, {today}).dataIssue, true);
   assert.equal(analyzeReceivable({...base, due_date:"2026-08-01"}, {today}).dataIssue, false);
 });
