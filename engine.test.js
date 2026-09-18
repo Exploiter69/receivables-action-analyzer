@@ -56,6 +56,24 @@ test("duplicates are excluded from financial totals", () => {
   assert.equal(s.outstanding, 1000000);
 });
 
+test("economic priority separates action types instead of flattening them into one bucket", () => {
+  const finance = analyzeReceivable({...base, invoice:"FIN", buyer:"BHEL", buyer_type:"cpse", amount:"1580000", due_date:"2026-04-01"}, {today});
+  const recovery = analyzeReceivable({...base, invoice:"REC", amount:"560000", due_date:"2026-03-20"}, {today});
+  const evidence = analyzeReceivable({...base, invoice:"EVD", amount:"890000", due_date:"2026-06-03", delivery_proof:"no", notes:"quality dispute"}, {today});
+  assert.ok(finance.priorityScore > recovery.priorityScore);
+  assert.ok(recovery.priorityScore > evidence.priorityScore);
+  assert.notEqual(finance.priority, recovery.priority);
+  assert.equal(finance.action, ACTIONS.FINANCE);
+  assert.equal(recovery.action, ACTIONS.RECOVERY);
+  assert.equal(evidence.action, ACTIONS.FIX_EVIDENCE);
+});
+
+test("economic priority does not saturate all large invoices at the same money score", () => {
+  const small = analyzeReceivable({...base, amount:"500000", due_date:"2026-08-01"}, {today});
+  const large = analyzeReceivable({...base, amount:"5000000", due_date:"2026-08-01"}, {today});
+  assert.ok(large.priorityScore > small.priorityScore);
+});
+
 test("date parser accepts ISO and Indian DD-MM-YYYY and rejects impossible dates", () => {
   assert.equal(analyzeReceivable({...base, due_date:"01-08-2026"}, {today}).dataIssue, false);
   assert.equal(analyzeReceivable({...base, due_date:"13-08-2026"}, {today}).dataIssue, false);
