@@ -130,7 +130,7 @@ export function analyzeReceivable(row, options = {}) {
   }[action] ?? 0;
   const evidenceReadiness = evidenceCompleteness * 0.10;
   const priorityScore = Math.min(100, Math.round(moneyAtStake + agingPressure + actionValue + evidenceReadiness));
-  const priority = priorityScore >= 80 ? "Critical" : priorityScore >= 60 ? "High" : priorityScore >= 30 ? "Medium" : "Low";
+  const priority = priorityScore >= 85 ? "Critical" : priorityScore >= 60 ? "High" : priorityScore >= 30 ? "Medium" : "Low";
 
   return {
     ...row, invoice, buyer, amount, overdue, dataIssue:false, isDuplicate:duplicate,
