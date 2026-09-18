@@ -34,7 +34,7 @@ test("dispute overrides financing", () => {
 });
 
 test("missing evidence overrides recovery", () => {
-  const r = analyzeReceivable({...base, due_date:"2026-03-01", delivery_proof:"no"}, {today});
+  const r = analyzeReceivable({...base, due_date:"2026-03-01", delivery_proof:"no", invoice_proof:"no"}, {today});
   assert.equal(r.action, ACTIONS.FIX_EVIDENCE);
   assert.equal(r.recoveryReady, false);
 });
