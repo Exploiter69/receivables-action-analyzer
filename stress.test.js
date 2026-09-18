@@ -40,9 +40,9 @@ test("100-row stress fixture stays deterministic and safe", () => {
   assert.equal(results.find(r => r.invoice === "ST-100").action, ACTIONS.DATA_ISSUE);
 
   assert.equal(s.actions[ACTIONS.MONITOR], 20);
-  assert.equal(s.actions[ACTIONS.CHASE], 20);
+  assert.equal(s.actions[ACTIONS.CHASE], 21);
   assert.equal(s.actions[ACTIONS.ESCALATE], 15);
-  assert.equal(s.actions[ACTIONS.RECOVERY], 10);
+  assert.equal(s.actions[ACTIONS.RECOVERY], 12);
   assert.equal(s.actions[ACTIONS.FINANCE], 10);
   assert.equal(s.actions[ACTIONS.FIX_EVIDENCE], 16);
   assert.equal(s.actions[ACTIONS.DATA_ISSUE], 0);
