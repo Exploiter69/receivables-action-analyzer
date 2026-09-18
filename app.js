@@ -58,5 +58,8 @@ $("csv").value=demo.map(r=>r.join(",")).join("\n");
 $("analyze").onclick=()=>loadRows(parseCSV($("csv").value));
 $("sample").onclick=()=>{$("csv").value=demo.map(r=>r.join(",")).join("\n");loadRows(demoObjects());};
 $("clear").onclick=()=>{$("csv").value="";results=[];state.clear();render();};
+function detail(r){$("detailContent").innerHTML=`<p class="eyebrow">RECEIVABLE DETAIL</p><h2>${esc(r.invoice)||"Unnamed invoice"}</h2><p class="detail-sub">${esc(r.buyer)||"Unknown buyer"} · ${money(r.amount)}</p><div class="detail-grid"><div><span>Recommended action</span><strong>${esc(r.action)}</strong></div><div><span>Priority</span><strong>${esc(r.priority)} · ${r.priorityScore}/100</strong></div><div><span>Age</span><strong>${r.dataIssue?"Data issue":r.overdue+" days overdue"}</strong></div><div><span>Evidence</span><strong>${r.dataIssue?"Unavailable":r.evidenceCompleteness+"%"}</strong></div></div><h3>Why</h3><p>${esc(r.reason)}</p><h3>Do next</h3><ol>${r.actionSteps.map(x=>`<li>${esc(x)}</li>`).join("")}</ol><h3>Signals</h3><p class="signals">${r.dataIssue?"Data issue blocks financial recommendation.":`Accepted: ${r.accepted?"Yes":"No"} · Dispute: ${r.dispute?"Yes":"No"} · Financing candidate: ${r.financingCandidate?"Yes":"No"} · Recovery-ready: ${r.recoveryReady?"Yes":"No"}`}</p>`;$("detail").showModal();}
 $("queue").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;state.set(b.dataset.key,b.dataset.state);render();});
 loadRows(demoObjects());
+
+$("closeDetail").onclick=()=>$("detail").close();
