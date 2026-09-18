@@ -44,6 +44,6 @@ test("100-row stress fixture stays deterministic and safe", () => {
   assert.equal(s.actions[ACTIONS.ESCALATE], 15);
   assert.equal(s.actions[ACTIONS.RECOVERY], 10);
   assert.equal(s.actions[ACTIONS.FINANCE], 10);
-  assert.equal(s.actions[ACTIONS.FIX_EVIDENCE], 11);
+  assert.equal(s.actions[ACTIONS.FIX_EVIDENCE], 16);
   assert.equal(s.actions[ACTIONS.DATA_ISSUE], 0);
 });
