@@ -115,12 +115,22 @@ export function analyzeReceivable(row, options = {}) {
     actionSteps = ["Monitor until the due date.", "Keep evidence complete.", "Act if payment risk changes."];
   }
 
-  const urgency = Math.min(40, overdue * 0.75);
-  const money = Math.min(25, amount / highValue * 25);
-  const actionability = action === ACTIONS.FIX_EVIDENCE ? 10 : evidenceCompleteness >= 75 ? 20 : 5;
-  const opportunity = financingCandidate ? 10 : 0;
-  const priorityScore = Math.min(100, Math.round(urgency + money + actionability + opportunity));
-  const priority = priorityScore >= 70 ? "Critical" : priorityScore >= 50 ? "High" : priorityScore >= 25 ? "Medium" : "Low";
+  // Economic priority is deliberately transparent: money at stake + aging + how actionable
+  // the recommended route is. It is a prioritization proxy, not a probability of recovery.
+  // The old linear amount cap made every invoice above highValue look identical.
+  const moneyAtStake = Math.min(35, Math.max(0, 15 + 10 * Math.log10(amount / 100000)));
+  const agingPressure = Math.min(25, overdue / 7);
+  const actionValue = {
+    [ACTIONS.FINANCE]: 25,
+    [ACTIONS.RECOVERY]: 24,
+    [ACTIONS.ESCALATE]: 20,
+    [ACTIONS.FIX_EVIDENCE]: 12,
+    [ACTIONS.CHASE]: 15,
+    [ACTIONS.MONITOR]: 5
+  }[action] ?? 0;
+  const evidenceReadiness = evidenceCompleteness * 0.10;
+  const priorityScore = Math.min(100, Math.round(moneyAtStake + agingPressure + actionValue + evidenceReadiness));
+  const priority = priorityScore >= 80 ? "Critical" : priorityScore >= 60 ? "High" : priorityScore >= 30 ? "Medium" : "Low";
 
   return {
     ...row, invoice, buyer, amount, overdue, dataIssue:false, isDuplicate:duplicate,
