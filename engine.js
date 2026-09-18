@@ -23,8 +23,8 @@ export function parseAmount(value) {
 
 export function parseDate(value) {
   const s = String(value ?? "").trim();
-  let m = /^(\\d{4})-(\\d{2})-(\\d{2})$/.exec(s);
-  if (!m) m = /^(\\d{2})-(\\d{2})-(\\d{4})$/.exec(s)?.slice(1).reverse();
+  let m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s);
+  if (!m) m = /^(\d{2})-(\d{2})-(\d{4})$/.exec(s)?.slice(1).reverse();
   if (!m) return null;
   const [y, mo, d] = m.map(Number);
   const date = new Date(Date.UTC(y, mo - 1, d));
