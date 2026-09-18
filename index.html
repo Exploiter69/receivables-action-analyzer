@@ -1,12 +1,12 @@
-<!doctype html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>DuePilot — Receivables Action Agent</title><link rel="stylesheet" href="./styles.css"></head>
-<body><header><div class="shell"><div class="brand"><span class="logo">D</span><div><strong>DuePilot</strong><small>Receivables Action Agent</small></div></div><span class="local">Local-first · No account required</span></div></header>
-<main class="shell"><section class="hero"><div><p class="eyebrow">INDIA-FIRST MSME WORKFLOW</p><h1>Every unpaid invoice gets an action.</h1><p>Turn an Excel-style receivables list into a prioritized work queue: chase, finance, fix evidence, escalate, prepare recovery, or monitor.</p></div></section>
-<section class="toolbar"><div><b>Receivables input</b><span>CSV import. Data problems are separated before financial totals.</span></div><div class="buttons"><button id="sample" class="secondary">Load demo</button><button id="analyze">Analyze</button><button id="clear" class="secondary">Clear</button></div></section>
-<textarea id="csv" aria-label="CSV receivables"></textarea>
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="DuePilot turns Indian MSME receivables into a prioritized action queue."><title>DuePilot — Receivables Action Agent</title><link rel="stylesheet" href="./styles.css"></head><body>
+<header><div class="shell nav"><div class="brand"><span class="logo">D</span><div><strong>DuePilot</strong><small>Receivables Action Agent</small></div></div><div class="nav-right"><span>Local-first</span><span>No account required</span></div></div></header>
+<main class="shell"><section class="hero"><div><p class="eyebrow">INDIA-FIRST MSME WORKFLOW</p><h1>Every unpaid invoice gets an action.</h1><p>Import your receivables and DuePilot separates data problems from collection opportunities, financing candidates, evidence gaps and recovery work.</p></div></section>
+<section class="toolbar panel"><div><b>Receivables input</b><span>CSV today · Excel import next · your source data stays in the browser</span></div><div class="buttons"><button id="sample" class="secondary">Load demo</button><button id="analyze">Analyze receivables</button><button id="clear" class="secondary">Clear</button></div></section>
+<div id="importStatus" class="status" aria-live="polite"></div><textarea id="csv" aria-label="CSV receivables"></textarea>
 <section class="metrics" id="kpis"></section>
-<section class="section-head"><div><p class="eyebrow">TODAY'S FOCUS</p><h2>Action Queue</h2><span id="count"></span> <span id="issues"></span></div><div class="legend">Sorted by transparent priority score</div></section>
+<section class="section-head"><div><p class="eyebrow">TODAY'S FOCUS</p><h2>Action Queue</h2><span id="count"></span> <span id="issues"></span></div><div class="legend">Priority is a transparent decision score, not an AI guess.</div></section>
 <section id="queue" class="queue"></section>
-<section class="section-head"><div><p class="eyebrow">SOURCE OF TRUTH</p><h2>All Receivables</h2></div></section><section class="panel" id="all"></section>
-<footer>DuePilot is decision-support software. Financing and recovery labels are candidates, not legal, accounting, or financing advice.</footer></main>
+<section class="section-head"><div><p class="eyebrow">SOURCE OF TRUTH</p><h2>All Receivables</h2><span id="filterHint">Every imported row</span></div></section><section class="panel table-panel" id="all"></section>
+<footer>DuePilot provides decision support. Financing and recovery labels are opportunities for review, not legal, accounting or financing advice.</footer></main>
+<dialog id="detail"><div id="detailContent"></div><button id="closeDetail" class="secondary close">Close</button></dialog>
 <script type="module" src="./app.js"></script></body></html>
