@@ -62,7 +62,9 @@ test("economic priority separates action types instead of flattening them into o
   const evidence = analyzeReceivable({...base, invoice:"EVD", amount:"890000", due_date:"2026-06-03", delivery_proof:"no", notes:"quality dispute"}, {today});
   assert.ok(finance.priorityScore > recovery.priorityScore);
   assert.ok(recovery.priorityScore > evidence.priorityScore);
-  assert.notEqual(finance.priority, recovery.priority);
+  assert.equal(finance.priority, "Critical");
+  assert.equal(recovery.priority, "High");
+  assert.equal(evidence.priority, "Medium");
   assert.equal(finance.action, ACTIONS.FINANCE);
   assert.equal(recovery.action, ACTIONS.RECOVERY);
   assert.equal(evidence.action, ACTIONS.FIX_EVIDENCE);
